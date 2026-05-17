@@ -97,7 +97,26 @@ const LIGHT: Theme = Theme {
     spark_tx:     Color::Rgb(0x78, 0x35, 0x0f),
 };
 
-const THEMES: [&Theme; 4] = [&DARK, &LIGHT, &TOKYO_NIGHT, &AKAITO];
+const GRUVBOX: Theme = Theme {
+    name:         "Gruvbox",
+    bg:           Color::Rgb(0x28, 0x28, 0x28),
+    overlay:      Color::Rgb(0x1d, 0x20, 0x21),
+    fg:           Color::Rgb(0xeb, 0xdb, 0xb2),
+    accent:       Color::Rgb(0xfa, 0xbd, 0x2f),
+    danger:       Color::Rgb(0xcc, 0x24, 0x1d),
+    success:      Color::Rgb(0xb8, 0xbb, 0x26),
+    warning:      Color::Rgb(0xd7, 0x99, 0x21),
+    info:         Color::Rgb(0x8e, 0xc0, 0x7c),
+    surface:      Color::Rgb(0x50, 0x49, 0x45),
+    muted:        Color::Rgb(0x92, 0x83, 0x74),
+    spark_cpu:    Color::Rgb(0xd3, 0x86, 0x9b),
+    spark_mem:    Color::Rgb(0x8e, 0xc0, 0x7c),
+    spark_disk:   Color::Rgb(0x83, 0xa5, 0x98),
+    spark_rx:     Color::Rgb(0xfe, 0x80, 0x19),
+    spark_tx:     Color::Rgb(0xd6, 0x5d, 0x0e),
+};
+
+const THEMES: [&Theme; 5] = [&DARK, &LIGHT, &TOKYO_NIGHT, &AKAITO, &GRUVBOX];
 static CURRENT: AtomicU8 = AtomicU8::new(0);
 
 pub fn current() -> &'static Theme {
