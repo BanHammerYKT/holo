@@ -18,6 +18,7 @@ use crate::panel;
 use crate::issues_ui;
 use crate::network_ui;
 use crate::permissions_ui;
+use crate::proxy;
 use crate::sessions_ui;
 use crate::theme;
 
@@ -168,6 +169,7 @@ pub fn render_app(
     frame: &mut Frame,
     title: &str,
     battery_level: Option<u8>,
+    proxy_str: Option<String>,
     app: &mut App,
     logcat_lines: &[String],
 ) {
@@ -225,6 +227,10 @@ pub fn render_app(
         .borders(Borders::ALL)
         .border_type(BorderType::Rounded)
         .title(title_line);
+
+    if let Some(proxy) = proxy_str {
+        block = block.title(proxy::proxy_bar(proxy));
+    }
 
     if let Some(level) = battery_level {
         block = block.title(battery::battery_bar(level));

@@ -16,6 +16,7 @@ use crate::monitor;
 use crate::network;
 use crate::permissions;
 use crate::processes;
+use crate::proxy;
 use crate::session::{SessionSeed, SessionWriter};
 use crate::trace;
 use crate::vitals::{self, VitalsHandle, VitalsEvent};
@@ -82,6 +83,8 @@ pub struct DataSources {
     adb: Arc<dyn Adb>,
     battery_rx: mpsc::Receiver<u8>,
     pub battery_level: Option<u8>,
+    proxy_rx: mpsc::Receiver<String>,
+    pub proxy_str: Option<String>,
 
     procs_rx: mpsc::Receiver<Option<u32>>,
     last_polled_pid: Option<u32>,
@@ -195,6 +198,12 @@ impl DataSources {
                 connectivity.clone(),
             ),
             battery_level: None,
+            proxy_rx: proxy::spawn_poller(
+                adb.clone(),
+                serial.to_string(),
+                connectivity.clone(),
+            ),
+            proxy_str: None,
             procs_rx: processes::spawn_poller(
                 adb.clone(),
                 serial.to_string(),
@@ -290,6 +299,9 @@ impl DataSources {
         self.device_connected = self.connectivity.load(Ordering::Relaxed);
         while let Ok(level) = self.battery_rx.try_recv() {
             self.battery_level = Some(level);
+        }
+        while let Ok(proxy) = self.proxy_rx.try_recv() {
+            self.proxy_str = Some(proxy);
         }
         while let Ok(pid) = self.procs_rx.try_recv() {
             self.last_polled_pid = pid;

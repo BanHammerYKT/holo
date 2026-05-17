@@ -152,6 +152,24 @@ impl Adb for RealAdb {
         parse_battery_level(&stdout).ok_or_else(|| color_eyre::eyre::eyre!("could not parse battery level"))
     }
 
+    fn get_system_proxy(&self, serial: &str) -> Result<String> {
+        let output = Command::new("adb")
+            .args(["-s", serial, "shell", "settings", "get", "global", "http_proxy"])
+            .output_timed(ADB_SHELL_TIMEOUT)?;
+
+        if !output.status.success() {
+            let stderr = String::from_utf8_lossy(&output.stderr);
+            bail!("adb shell settings get global http_proxy: {stderr}");
+        }
+
+        let stdout = String::from_utf8_lossy(&output.stdout);
+        let proxy = stdout.lines().next().unwrap_or("").trim().to_string();
+        if proxy.is_empty() || proxy == ":0" || proxy == "null" {
+            return Ok(String::new());
+        }
+        Ok(proxy)
+    }
+
     fn list_packages(&self, serial: &str) -> Result<Vec<String>> {
         let output = Command::new("adb")
             .args(["-s", serial, "shell", "pm", "list", "packages", "-3"])

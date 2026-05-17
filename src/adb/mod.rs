@@ -24,6 +24,7 @@ pub struct FileMeta {
 pub trait Adb: Send + Sync {
     fn list_devices(&self) -> Result<Vec<Device>>;
     fn get_battery_level(&self, serial: &str) -> Result<u8>;
+    fn get_system_proxy(&self, serial: &str) -> Result<String>;
     fn list_packages(&self, serial: &str) -> Result<Vec<String>>;
     fn pidof(&self, serial: &str, package: &str) -> Result<Option<u32>>;
     fn launch_app(&self, serial: &str, package: &str) -> Result<()>;

@@ -25,6 +25,7 @@ mod panel;
 mod permissions;
 mod permissions_ui;
 mod processes;
+mod proxy;
 mod replay;
 mod selector;
 mod session;
@@ -257,6 +258,7 @@ fn render_frame(
     app: &mut App,
 ) -> Result<()> {
     let battery_level = ctx.data.as_ref().and_then(|d| d.battery_level);
+    let proxy_str = ctx.data.as_ref().and_then(|d| d.proxy_str.clone()).filter(|s| !s.is_empty());
     // While a captured session is open the logcat panel renders the
     // captured tail (`App::session_view`) instead of the live one in
     // `DataSources`. The captured buffer is an `Arc<[String]>` so we can
@@ -274,7 +276,7 @@ fn render_frame(
         ctx.pending_redraw = false;
     }
     terminal.draw(|frame| {
-        ui::render_app(frame, &ctx.title, battery_level, app, logcat_lines)
+        ui::render_app(frame, &ctx.title, battery_level, proxy_str, app, logcat_lines)
     })?;
     Ok(())
 }
