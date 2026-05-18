@@ -97,8 +97,8 @@ const LIGHT: Theme = Theme {
     spark_tx:     Color::Rgb(0x78, 0x35, 0x0f),
 };
 
-const GRUVBOX: Theme = Theme {
-    name:         "Gruvbox",
+const GRUVBOX_DARK: Theme = Theme {
+    name:         "Gruvbox Dark",
     bg:           Color::Rgb(0x28, 0x28, 0x28),
     overlay:      Color::Rgb(0x1d, 0x20, 0x21),
     fg:           Color::Rgb(0xeb, 0xdb, 0xb2),
@@ -116,7 +116,26 @@ const GRUVBOX: Theme = Theme {
     spark_tx:     Color::Rgb(0xd6, 0x5d, 0x0e),
 };
 
-const THEMES: [&Theme; 5] = [&DARK, &LIGHT, &TOKYO_NIGHT, &AKAITO, &GRUVBOX];
+const GRUVBOX_LIGHT: Theme = Theme {
+    name:         "Gruvbox Light",
+    bg:           Color::Rgb(0xfb, 0xf1, 0xc7),
+    overlay:      Color::Rgb(0xf9, 0xf5, 0xd7),
+    fg:           Color::Rgb(0x3c, 0x38, 0x36),
+    accent:       Color::Rgb(0xb5, 0x76, 0x14),
+    danger:       Color::Rgb(0xcc, 0x24, 0x1d),
+    success:      Color::Rgb(0x79, 0x74, 0x0e),
+    warning:      Color::Rgb(0xd7, 0x99, 0x21),
+    info:         Color::Rgb(0x42, 0x7b, 0x58),
+    surface:      Color::Rgb(0xd5, 0xc4, 0xa1),
+    muted:        Color::Rgb(0x92, 0x83, 0x74),
+    spark_cpu:    Color::Rgb(0x8f, 0x3f, 0x71),
+    spark_mem:    Color::Rgb(0x42, 0x7b, 0x58),
+    spark_disk:   Color::Rgb(0x07, 0x66, 0x78),
+    spark_rx:     Color::Rgb(0xaf, 0x3a, 0x03),
+    spark_tx:     Color::Rgb(0xd6, 0x5d, 0x0e),
+};
+
+const THEMES: [&Theme; 6] = [&DARK, &LIGHT, &TOKYO_NIGHT, &AKAITO, &GRUVBOX_DARK, &GRUVBOX_LIGHT];
 static CURRENT: AtomicU8 = AtomicU8::new(0);
 
 pub fn current() -> &'static Theme {
